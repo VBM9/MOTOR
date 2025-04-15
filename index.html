@@ -1065,6 +1065,7 @@
             -webkit-tap-highlight-color: transparent;
             transform: translateZ(0);
             /* Hardware acceleration */
+            touch-action: manipulation;
         }
 
         .close-modal::before,
@@ -1101,15 +1102,73 @@
             width: 22px;
         }
 
-        @media (max-width: 576px) {
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 767px) {
             .close-modal {
                 width: 36px;
                 height: 36px;
+                top: 12px;
+                right: 12px;
             }
 
             .close-modal::before,
             .close-modal::after {
                 width: 18px;
+            }
+
+            .close-modal:hover::before,
+            .close-modal:hover::after,
+            .close-modal:active::before,
+            .close-modal:active::after {
+                width: 20px;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 375px) {
+            .close-modal {
+                width: 32px;
+                height: 32px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .close-modal::before,
+            .close-modal::after {
+                width: 16px;
+            }
+
+            .close-modal:hover::before,
+            .close-modal:hover::after,
+            .close-modal:active::before,
+            .close-modal:active::after {
+                width: 18px;
+            }
+        }
+
+        /* Handle notches and safe areas on newer phones */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .close-modal {
+                top: max(10px, env(safe-area-inset-top, 15px));
+                right: max(10px, env(safe-area-inset-right, 15px));
+            }
+        }
+
+        /* Improve touch targets for all touch devices */
+        @media (pointer: coarse) {
+            .close-modal {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        /* High pixel density screens */
+        @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) {
+
+            .close-modal::before,
+            .close-modal::after {
+                height: 1.5px;
             }
         }
 
