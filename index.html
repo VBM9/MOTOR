@@ -998,7 +998,7 @@
 
         /* Motorcycle Modal Styles - Enhanced for all phone displays */
         .motorcycle-modal {
-            margin-top: 79px;
+            margin-top: 60px;
             display: none;
             position: fixed;
             top: 0;
@@ -1008,7 +1008,6 @@
             background-color: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             align-items: center;
-            justify-content: center;
             padding: 10px;
             box-sizing: border-box;
             overflow-y: auto;
@@ -1873,56 +1872,237 @@
         const modal = document.createElement('div');
         modal.className = 'motorcycle-modal';
         modal.innerHTML = `
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <div class="modal-image-container">
-      <img class="modal-image" src="" alt="">
-      <button class="image-nav-btn prev-btn">&lt;</button>
-      <button class="image-nav-btn next-btn">&gt;</button>
-      <div class="image-counter"></div>
+<div class="modal-content">
+  <span class="close-modal">&times;</span>
+  <div class="modal-image-container">
+    <img class="modal-image" src="" alt="">
+    <button class="image-nav-btn prev-btn">&lt;</button>
+    <button class="image-nav-btn next-btn">&gt;</button>
+    <div class="image-counter"></div>
+  </div>
+  <div class="modal-details">
+    <h2 class="modal-name"></h2>
+    <div class="modal-specs">
+      <div class="spec-row">
+        <span class="spec-label">Category:</span>
+        <span class="spec-value modal-category"></span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">Engine:</span>
+        <span class="spec-value modal-engine"></span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">Power:</span>
+        <span class="spec-value modal-power"></span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">Weight:</span>
+        <span class="spec-value modal-weight"></span>
+      </div>
+      <div class="spec-row price-row">
+        <span class="spec-label">Price:</span>
+        <span class="spec-value modal-price"></span>
+      </div>
     </div>
-    <div class="modal-details">
-      <h2 class="modal-name"></h2>
-      <div class="modal-specs">
-        <div class="spec-row">
-          <span class="spec-label">Category:</span>
-          <span class="spec-value modal-category"></span>
-        </div>
-        <div class="spec-row">
-          <span class="spec-label">Engine:</span>
-          <span class="spec-value modal-engine"></span>
-        </div>
-        <div class="spec-row">
-          <span class="spec-label">Power:</span>
-          <span class="spec-value modal-power"></span>
-        </div>
-        <div class="spec-row">
-          <span class="spec-label">Weight:</span>
-          <span class="spec-value modal-weight"></span>
-        </div>
-        <div class="spec-row price-row">
-          <span class="spec-label">Price:</span>
-          <span class="spec-value modal-price"></span>
-        </div>
-      </div>
-      <div class="modal-description">
-        <h3>Description</h3>
-        <p class="modal-description-text"></p>
-      </div>
-
+    <div class="modal-description">
+      <h3>Description</h3>
+      <p class="modal-description-text"></p>
     </div>
   </div>
+</div>
 `;
         document.body.appendChild(modal);
+
+        // Create fullscreen container
+        const fullscreenContainer = document.createElement('div');
+        fullscreenContainer.className = 'fullscreen-container';
+        fullscreenContainer.innerHTML = `
+<div class="fullscreen-wrapper">
+  <button class="exit-fullscreen-btn">&times;</button>
+  <img class="fullscreen-image" src="" alt="">
+  <div class="fullscreen-navigation">
+    <button class="fullscreen-nav-btn prev-fullscreen-btn">&lt;</button>
+    <div class="fullscreen-counter"></div>
+    <button class="fullscreen-nav-btn next-fullscreen-btn">&gt;</button>
+  </div>
+</div>
+`;
+        document.body.appendChild(fullscreenContainer);
 
         // Modal functionality variables
         let currentMotorcycle = null;
         let currentImageIndex = 0;
 
+        // Create fullscreen button
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'fullscreen-btn';
+        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>'; // Using Font Awesome icon
+        fullscreenBtn.setAttribute('title', 'View fullscreen');
+
+        // Add Font Awesome for the expand icon if not already included
+        if (!document.querySelector('link[href*="font-awesome"]')) {
+            const fontAwesome = document.createElement('link');
+            fontAwesome.rel = 'stylesheet';
+            fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+            document.head.appendChild(fontAwesome);
+        }
+
+        // Add CSS for fullscreen functionality
+        const fullscreenStyles = document.createElement('style');
+        fullscreenStyles.textContent = `
+.fullscreen-btn {
+  position: absolute;
+  top: 200px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.fullscreen-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.exit-fullscreen-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 2001;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.exit-fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.fullscreen-navigation {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+
+.fullscreen-counter {
+  color: white;
+  font-size: 16px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.fullscreen-nav-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreen-nav-btn:hover:not([disabled]) {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.fullscreen-nav-btn[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .fullscreen-navigation {
+    bottom: 15px;
+    padding: 8px 15px;
+  }
+  
+  .fullscreen-nav-btn {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .exit-fullscreen-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    top: 10px;
+    right: 10px;
+  }
+}
+`;
+        document.head.appendChild(fullscreenStyles);
+
         // Show motorcycle details in modal
         function showMotorcycleDetails(motorcycle) {
             currentMotorcycle = motorcycle;
             currentImageIndex = 0;
+
+            // Add fullscreen button to modal
+            const modalImageContainer = modal.querySelector('.modal-image-container');
+            if (!modalImageContainer.querySelector('.fullscreen-btn')) {
+                modalImageContainer.appendChild(fullscreenBtn);
+            }
+
             updateModalImage();
 
             const modalName = modal.querySelector('.modal-name');
@@ -1960,6 +2140,19 @@
             // Disable/enable navigation buttons based on current index
             const prevBtn = modal.querySelector('.prev-btn');
             const nextBtn = modal.querySelector('.next-btn');
+
+            prevBtn.disabled = currentImageIndex === 0;
+            nextBtn.disabled = currentImageIndex === currentMotorcycle.images.length - 1;
+        }
+
+        // Update fullscreen counter
+        function updateFullscreenCounter() {
+            const fullscreenCounter = fullscreenContainer.querySelector('.fullscreen-counter');
+            fullscreenCounter.textContent = `${currentImageIndex + 1} / ${currentMotorcycle.images.length}`;
+
+            // Update navigation button states
+            const prevBtn = fullscreenContainer.querySelector('.prev-fullscreen-btn');
+            const nextBtn = fullscreenContainer.querySelector('.next-fullscreen-btn');
 
             prevBtn.disabled = currentImageIndex === 0;
             nextBtn.disabled = currentImageIndex === currentMotorcycle.images.length - 1;
@@ -2007,17 +2200,77 @@
             updateModalImage();
         });
 
+        // Event listener for fullscreen button
+        fullscreenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Get current motorcycle and image
+            const fullscreenImage = fullscreenContainer.querySelector('.fullscreen-image');
+            fullscreenImage.src = currentMotorcycle.images[currentImageIndex];
+            fullscreenImage.alt = `${currentMotorcycle.name} - Fullscreen Image ${currentImageIndex + 1}`;
+
+            // Update counter
+            updateFullscreenCounter();
+
+            // Show fullscreen view
+            fullscreenContainer.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close fullscreen view
+        fullscreenContainer.querySelector('.exit-fullscreen-btn').addEventListener('click', () => {
+            fullscreenContainer.style.display = 'none';
+            // Only restore scroll if the modal is not open
+            if (modal.style.display !== 'flex') {
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fullscreen navigation
+        fullscreenContainer.querySelector('.prev-fullscreen-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                const fullscreenImage = fullscreenContainer.querySelector('.fullscreen-image');
+                fullscreenImage.src = currentMotorcycle.images[currentImageIndex];
+                updateFullscreenCounter();
+                updateModalImage(); // Keep modal in sync
+            }
+        });
+
+        fullscreenContainer.querySelector('.next-fullscreen-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentImageIndex < currentMotorcycle.images.length - 1) {
+                currentImageIndex++;
+                const fullscreenImage = fullscreenContainer.querySelector('.fullscreen-image');
+                fullscreenImage.src = currentMotorcycle.images[currentImageIndex];
+                updateFullscreenCounter();
+                updateModalImage(); // Keep modal in sync
+            }
+        });
+
+        // Close fullscreen when clicking outside the image
+        fullscreenContainer.addEventListener('click', (e) => {
+            if (e.target === fullscreenContainer || e.target.classList.contains('fullscreen-wrapper')) {
+                fullscreenContainer.style.display = 'none';
+                // Only restore scroll if the modal is not open
+                if (modal.style.display !== 'flex') {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
         // Create motorcycle cards and add them to the grid
         function displayMotorcycles(motorcyclesToShow) {
             motorcycleGrid.innerHTML = '';
 
             if (motorcyclesToShow.length === 0) {
                 motorcycleGrid.innerHTML = `
-            <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
-                <h3 style="font-size: 18px; margin-bottom: 10px;">No motorcycles found</h3>
-                <p style="color: var(--moto-gray);">Try selecting a different category</p>
-            </div>
-        `;
+        <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
+            <h3 style="font-size: 18px; margin-bottom: 10px;">No motorcycles found</h3>
+            <p style="color: var(--moto-gray);">Try selecting a different category</p>
+        </div>
+    `;
                 return;
             }
 
@@ -2027,31 +2280,31 @@
                 card.addEventListener('click', () => showMotorcycleDetails(motorcycle));
 
                 card.innerHTML = `
-            <div class="motorcycle-image">
-                <img src="${motorcycle.images[0]}" alt="${motorcycle.name}">
-                <div class="category-tag">${motorcycle.category}</div>
-            </div>
-            <div class="motorcycle-content">
-                <h3 class="motorcycle-name">${motorcycle.name}</h3>
-                <div class="motorcycle-specs">
-                    <div>
-                        <p class="spec-label">Engine</p>
-                        <p class="spec-value">${motorcycle.engine}</p>
-                    </div>
-                    <div>
-                        <p class="spec-label">Power</p>
-                        <p class="spec-value">${motorcycle.power}</p>
-                    </div>
-                    <div>
-                        <p class="spec-label">Weight</p>
-                        <p class="spec-value">${motorcycle.weight}</p>
-                    </div>
+        <div class="motorcycle-image">
+            <img src="${motorcycle.images[0]}" alt="${motorcycle.name}">
+            <div class="category-tag">${motorcycle.category}</div>
+        </div>
+        <div class="motorcycle-content">
+            <h3 class="motorcycle-name">${motorcycle.name}</h3>
+            <div class="motorcycle-specs">
+                <div>
+                    <p class="spec-label">Engine</p>
+                    <p class="spec-value">${motorcycle.engine}</p>
                 </div>
-                <div class="motorcycle-footer">
-                    <p class="motorcycle-price">${formatPrice(motorcycle.price)}</p>
+                <div>
+                    <p class="spec-label">Power</p>
+                    <p class="spec-value">${motorcycle.power}</p>
+                </div>
+                <div>
+                    <p class="spec-label">Weight</p>
+                    <p class="spec-value">${motorcycle.weight}</p>
                 </div>
             </div>
-        `;
+            <div class="motorcycle-footer">
+                <p class="motorcycle-price">${formatPrice(motorcycle.price)}</p>
+            </div>
+        </div>
+    `;
 
                 motorcycleGrid.appendChild(card);
             });
@@ -2152,7 +2405,5 @@
         window.addEventListener('DOMContentLoaded', () => {
             displayMotorcycles(motorcycles);
         });
-
-
     </script>
 </body>
