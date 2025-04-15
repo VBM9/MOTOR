@@ -1551,13 +1551,18 @@
                 <ul>
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#models">Models</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li><a href="#">Financing</a></li>
                     <li><a href="#">About Us</a></li>
                 </ul>
             </div>
             <div class="nav-icons">
-
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Search by name, ID, price or category..."
+                        aria-label="Search motorcycles">
+                    <button id="searchButton" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="searchResults" class="search-results" aria-live="polite"></div>
                 <!-- Add this to your HTML, ideally in your navigation bar -->
                 <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
                     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -1716,7 +1721,6 @@
     </footer>
 
     <script>
-        // Mock data for motorcycles with descriptions
         const motorcycles = [
             {
                 id: "sport-1",
@@ -1725,8 +1729,8 @@
                 price: 15999,
                 images: [
                     "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=80&w=1974&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1558981806-ec7a075b5a1a?q=80&w=2070&auto=format&fit=crop"
+                    "https://i0.wp.com/www.asphaltandrubber.com/wp-content/uploads/2021/12/2022-Ducati-Panigale-V4-S-Jerez-Jensen-07-scaled.jpg?ssl=1",
+                    "https://images.ctfassets.net/x7j9qwvpvr5s/4hP4yWIurUZqVoIzib9oIu/8f81697fa36c321a4c8f042a6967ac95/SOP-SS-950-cover-img-large-1920x960.jpg"
                 ],
                 engine: "937cc",
                 power: "110 HP",
@@ -1735,172 +1739,126 @@
             },
             {
                 id: "sport-2",
-                name: "Ninja ZX-10R",
-                category: "sport",
-                price: 17499,
-                images: [
-                    "https://images.unsplash.com/photo-1580341289255-5b47c98a59dd?q=80&w=2300&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1597910037235-309c9fe6d8a9?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "998cc",
-                power: "203 HP",
-                weight: "207 kg",
-                description: "The Ninja ZX-10R is a championship-winning superbike that brings race-track technology to the street. With a potent 998cc inline-four engine and advanced electronics package, it offers blistering acceleration and precise handling for experienced riders."
-            },
-            {
-                id: "cruiser-2",
-                name: "Scout Bobber",
-                category: "cruiser",
-                price: 11499,
-                images: [
-                    "https://images.unsplash.com/photo-1558980394-dbb977039a2e?q=80&w=1974&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1558981852-426c6c22a060?q=80&w=1974&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1558980394-4c5c14b8b1e1?q=80&w=1974&auto=format&fit=crop"
-                ],
-                engine: "1133cc",
-                power: "100 HP",
-                weight: "251 kg",
-                description: "The Scout Bobber combines classic American cruiser styling with modern performance. Its low-slung profile, blacked-out components, and powerful 1133cc V-twin engine create a bold statement on the road. Ideal for riders who value style and substance."
-            },
-            // Added motorcycles below
-            {
-                id: "adventure-1",
-                name: "GS 1250 Adventure",
-                category: "adventure",
-                price: 20495,
-                images: [
-                    "https://images.unsplash.com/photo-1568708090592-eb1815c6b4b5?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1609689000460-47e5e3de6e74?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1571646750134-60a1c8b4d1fc?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "1254cc",
-                power: "136 HP",
-                weight: "249 kg",
-                description: "The GS 1250 Adventure is the ultimate go-anywhere motorcycle. Its powerful boxer engine, advanced suspension, and comprehensive electronics make it equally capable on highways, dirt roads, and challenging terrain. The benchmark for adventure touring motorcycles."
-            },
-            {
-                id: "naked-1",
-                name: "Street Fighter V4",
-                category: "naked",
-                price: 19995,
-                images: [
-                    "https://images.unsplash.com/photo-1616839261111-d7070462d66e?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1595162477157-4ce83e7c2ca8?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1606629317988-f7e66b70f55f?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "1103cc",
-                power: "208 HP",
-                weight: "201 kg",
-                description: "The Street Fighter V4 takes the raw power of a superbike and strips away the fairings for an aggressive naked design. With MotoGP-derived electronics and a howling V4 engine, it delivers breathtaking performance and handling without compromising on character."
-            },
-            {
-                id: "cruiser-1",
-                name: "Road King Classic",
-                category: "cruiser",
-                price: 19499,
-                images: [
-                    "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "1868cc",
-                power: "94 HP",
-                weight: "362 kg",
-                description: "The Road King Classic embodies American highway cruising tradition with its heritage styling, massive V-twin engine, and unparalleled comfort. Chrome accents, leather saddlebags, and whitewall tires complete the classic look while modern technology ensures reliable performance."
-            },
-            {
-                id: "touring-1",
-                name: "Gold Wing Tour",
-                category: "touring",
-                price: 29999,
-                images: [
-                    "https://images.unsplash.com/photo-1632934071822-a4562e1ec11d?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1607522370275-f14c93d395f2?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1600315708348-8ae2ca26e0bb?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "1833cc",
-                power: "126 HP",
-                weight: "379 kg",
-                description: "The Gold Wing Tour defines luxury motorcycle touring with its smooth six-cylinder engine, spacious accommodations for rider and passenger, and comprehensive features. From the advanced infotainment system to electronically adjustable suspension, every detail is designed for comfortable long-distance travel."
-            },
-            {
-                id: "sport-3",
                 name: "Panigale V4",
                 category: "sport",
                 price: 23995,
                 images: [
-                    "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2036&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1568265112889-c9d3fc50a281?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1549641830-a51d6c0d1267?q=80&w=2070&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1580341289255-5b47c98a59dd?q=80&w=2070&auto=format&fit=crop",
+                    "https://i0.wp.com/www.asphaltandrubber.com/wp-content/uploads/2021/12/2022-Ducati-Panigale-V4-S-Jerez-Jensen-07-scaled.jpg?ssl=1",
+                    "https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=2070&auto=format&fit=crop"
                 ],
                 engine: "1103cc",
                 power: "214 HP",
-                weight: "198 kg",
-                description: "The Panigale V4 represents the pinnacle of superbike engineering with its MotoGP-derived V4 engine and cutting-edge aerodynamics. Every component is designed to maximize performance on the racetrack while still offering approachable handling for experienced street riders."
+                weight: "175 kg",
+                description: "The Panigale V4 represents the pinnacle of Ducati superbike development. With MotoGP-derived technology, its V4 Desmosedici Stradale engine delivers extraordinary performance on both track and road."
+            },
+            {
+                id: "cruiser-1",
+                name: "Road King",
+                category: "cruiser",
+                price: 19499,
+                images: [
+                    "https://ultimatemotorcycling.com/wp-content/uploads/2022/10/2023-harley-davidson-road-king-special-review-4.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0UpNDrZXzh7iLNr5w7xlu4PDMeAf11nSHTnBiojOrJrUhSO27UEWb8Zhg-4nZSrkaSns&usqp=CAU",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRngLZCdRd90wxl2EhZsuKsBcBpzQ_d6-tl3-kf4qTXQkC40nvlRmafJ9N4hirSrdAhLkM&usqp=CAU"
+                ],
+                engine: "1745cc",
+                power: "92 HP",
+                weight: "379 kg",
+                description: "The Road King combines classic styling with modern performance. Its Milwaukee-Eight 107 engine provides the power for smooth cruising, while the detachable windshield and saddlebags offer versatility for any journey."
+            },
+            {
+                id: "adventure-1",
+                name: "GS 1250 Adventure",
+                category: "adventure",
+                price: 20345,
+                images: [
+                    "https://i.ytimg.com/vi/Hrh9Kdqlnqk/mqdefault.jpg",
+                    "https://imgcdn.oto.com/large/gallery/exterior/67/2218/bmw-r-1250-gs-slant-rear-view-full-image-227919.jpg",
+                    "https://i.ytimg.com/vi/ap7FaNkRhVQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLASFp_I6xC4dZRDZMc5foZZCj-hFA",
+                ],
+                engine: "1254cc",
+                power: "136 HP",
+                weight: "249 kg",
+                description: "The GS 1250 Adventure sets the standard for long-distance touring capability. With its boxer engine, advanced suspension system, and comprehensive electronics package, it's ready to tackle any terrain from highways to rough trails."
+            },
+            {
+                id: "naked-1",
+                name: "Street Triple RS",
+                category: "naked",
+                price: 12950,
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgkZgzFBKBAlrUuup_kqe07dRcdcHtSgOTCg&s",
+                    "https://www.datocms-assets.com/119921/1714122252-2022-triumph-street-triple-rs_tim.jpg?auto=format&w=800",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXZalq1WVMfNAQLiZEgu50NnjLQuHzIcCwEOFa3MCd4TeVN25hnmd-dL6Iex3KDEPjXMc&usqp=CAU",
+                ],
+                engine: "765cc",
+                power: "121 HP",
+                weight: "166 kg",
+                description: "The Street Triple RS delivers an exhilarating riding experience with its responsive three-cylinder engine and agile chassis. Premium suspension and brakes ensure precise control whether on city streets or winding back roads."
+            },
+            {
+                id: "touring-1",
+                name: "Gold Wing",
+                category: "touring",
+                price: 25300,
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPUdU8jj6qm7rZeZiZc2KE3V4f3Exj-gvA1w&s",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDi1z822ZbO6gGG0_x5EY6GhHwnNKGxHgfio06hgDNgWIFPt2zvElTf9NjOL8XoNLGSEE&usqp=CAU",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQAT9pCT-JqLMhJgHhBm76qHxVBdf82NEsePVXfpTkaO9iOQ0M7me1AuUste9LqLi0zjg&usqp=CAU"
+                ],
+                engine: "1833cc",
+                power: "126 HP",
+                weight: "367 kg",
+                description: "The Gold Wing defines luxury touring with its smooth six-cylinder engine, advanced comfort features, and spacious storage. The latest model incorporates cutting-edge electronics including Apple CarPlay and Android Auto integration."
             },
             {
                 id: "retro-1",
                 name: "Bonneville T120",
                 category: "retro",
-                price: 12495,
+                price: 12200,
                 images: [
-                    "https://images.unsplash.com/photo-1614610978306-9c8f2f1e7d54?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1575438922952-8ebd22b0bc1f?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1517846693594-1567da4e4565?q=80&w=2070&auto=format&fit=crop"
+                    "https://media.triumphmotorcycles.co.uk/image/upload/f_auto/q_auto:eco/sitecoremedialibrary/media-library/images/motorcycles/modern-classics/my21/t120/family%20page%20images/t120-family-timeline-slide-style-1920x780.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHC8x0h03gGms0Uf_ChGiVvLSUsLMrwb6XX86zxEt2NLFWj_1cwKfgV-aEsauz90hxQj4&usqp=CAU",
+                    "https://cdn.renchlist.com/wp-content/uploads/2021/03/04205643/Rear-end-from-a-distance-3-2-768x512.jpeg"
                 ],
                 engine: "1200cc",
                 power: "80 HP",
                 weight: "224 kg",
-                description: "The Bonneville T120 celebrates iconic British motorcycle design with authentic retro styling and modern performance. Its smooth parallel-twin engine delivers accessible torque while classic details like spoked wheels and peashooter exhausts capture the essence of 1960s motorcycling."
+                description: "The Bonneville T120 embodies classic British motorcycle design with modern reliability. Its parallel-twin engine delivers accessible torque, while period-correct styling details create an authentic retro riding experience."
             },
             {
-                id: "adventure-2",
-                name: "Africa Twin",
-                category: "adventure",
-                price: 14999,
+                id: "sport-3",
+                name: "YZF-R1",
+                category: "sport",
+                price: 17599,
                 images: [
-                    "https://images.unsplash.com/photo-1619771914272-e3c1ba17ba4d?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1596440114792-d3e0ae1a81f0?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1620193827194-6ce316492f6d?q=80&w=2070&auto=format&fit=crop"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPnNm5RC0s66ssqeTlhdoWbdmudHiFY3cNQ&s",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMg8xSVz-gw9p1kwAUwkVA_fnIx1w5yprYqcOLYsfye9BqnM2hbHStNkz1uz2pxMtYOrM&usqp=CAU",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrdNUyXhV0qeMQXxcKe60uq1XYQtxx3Q7gg2zjS9lt3f2bWarFL3YShdVAUzO6QDJ0XIo&usqp=CAU"
                 ],
-                engine: "1084cc",
-                power: "102 HP",
-                weight: "226 kg",
-                description: "The Africa Twin carries on the legacy of its Dakar Rally-winning predecessor with exceptional off-road capability and on-road comfort. Its parallel-twin engine provides linear power delivery, while long-travel suspension and available DCT transmission make it a versatile adventure companion."
+                engine: "998cc",
+                power: "200 HP",
+                weight: "201 kg",
+                description: "The YZF-R1 represents the pinnacle of superbike technology with its crossplane crankshaft engine and sophisticated electronics package. Developed with input from MotoGP racing, it delivers exceptional performance on both track and street."
             },
+
             {
                 id: "naked-2",
                 name: "MT-09",
                 category: "naked",
-                price: 9499,
+                price: 9399,
                 images: [
-                    "https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2021&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1599912346158-7bbdb3c2d589?q=80&w=2069&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1611241443322-b5524914fe1c?q=80&w=2070&auto=format&fit=crop"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXuGt4D5uiQIwaRuxWKBJJc5yp48odwzVuWQ&s",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjGakTJaqN5CoGs35wGR6nis6PTVOUji_tlw&s",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8Cw7BFijaNLPn7Dmt9m0hr9QJfw7K3f7lhB24jv8HsWeo8tNLtYY1daY6vmpPNpDq3SM&usqp=CAU"
                 ],
                 engine: "890cc",
                 power: "117 HP",
-                weight: "193 kg",
-                description: "The MT-09 redefines the middleweight naked category with its thrilling three-cylinder engine and agile chassis. Its aggressive styling, lightweight design, and torque-rich power delivery create an engaging riding experience that emphasizes fun and versatility at an accessible price point."
-            },
-            {
-                id: "retro-2",
-                name: "Z900RS",
-                category: "retro",
-                price: 11499,
-                images: [
-                    "https://images.unsplash.com/photo-1609630875267-842badde016e?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1611242320536-f12d3541249b?q=80&w=2070&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1580485095308-473d7b37cfd4?q=80&w=2070&auto=format&fit=crop"
-                ],
-                engine: "948cc",
-                power: "111 HP",
-                weight: "215 kg",
-                description: "The Z900RS pays homage to the iconic Z1 with its timeless styling while delivering thoroughly modern performance. Its inline-four engine combines smooth power with a satisfying exhaust note, while premium suspension and brakes ensure confident handling for both relaxed cruising and spirited riding."
+                weight: "189 kg",
+                description: "The MT-09 delivers aggressive streetfighter performance with its torque-rich three-cylinder engine and lightweight chassis. Its 'Dark Side of Japan' design philosophy creates a distinctive visual impact backed by cutting-edge technology."
             }
         ];
-
         // DOM Elements
         const motorcycleGrid = document.getElementById('motorcycleGrid');
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -2011,7 +1969,7 @@
         fullscreenStyles.textContent = `
 .fullscreen-btn {
   position: absolute;
-  top: 200px;
+  top: 20px;
   left: 15px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
@@ -2555,5 +2513,635 @@
         window.addEventListener('DOMContentLoaded', () => {
             displayMotorcycles(motorcycles);
         });
+
+
+        // Add search HTML structure to the page
+        const searchContainer = document.createElement('div');
+        searchContainer.className = 'search-container';
+        searchContainer.innerHTML = `
+
+
+
+`;
+
+        // Insert search container after the header or at the beginning of main content
+        const header = document.querySelector('header');
+        if (header) {
+            header.parentNode.insertBefore(searchContainer, header.nextSibling);
+        } else {
+            // Fallback - insert at the beginning of the main content or body
+            const mainContent = document.querySelector('main') || document.body;
+            mainContent.insertBefore(searchContainer, mainContent.firstChild);
+        }
+
+        // Add CSS styles for search functionality
+        const searchStyles = document.createElement('style');
+        searchStyles.textContent = `
+.search-container {
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.search-wrapper {
+  display: flex;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.search-wrapper:focus-within {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+#searchInput {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 16px;
+  border: none;
+  background: var(--moto-white, #ffffff);
+  color: var(--moto-dark, #222222);
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#searchButton {
+  background: var(--moto-red, #c8102e);
+  color: white;
+  border: none;
+  min-width: 60px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+}
+
+#searchButton:hover {
+  background: var(--moto-dark-red, #a00d26);
+}
+
+.search-results {
+  margin-top: 10px;
+  display: none;
+  background: var(--moto-white, #ffffff);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  max-height: 400px;
+  overflow-y: auto;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  z-index: 101;
+  width: calc(100% - 40px);
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.search-result-image {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.search-result-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--moto-dark, #222222);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-info {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--moto-gray, #777777);
+  gap: 8px;
+}
+
+.search-result-info span {
+  margin-right: 15px;
+}
+
+.search-result-info .highlight {
+  color: var(--moto-red, #c8102e);
+  font-weight: 500;
+}
+
+.search-no-results {
+  padding: 30px;
+  text-align: center;
+  color: var(--moto-gray, #777777);
+}
+
+/* Small mobile devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .search-container {
+    padding: 0 15px;
+  }
+  
+  #searchInput {
+    padding: 14px 15px;
+    font-size: 15px;
+  }
+  
+  .search-result-image {
+    width: 60px;
+    height: 45px;
+    margin-right: 10px;
+  }
+  
+  .search-result-item {
+    padding: 12px 15px;
+  }
+  
+  .search-results {
+    left: 15px;
+    right: 15px;
+    width: calc(100% - 30px);
+  }
+}
+
+/* Medium mobile devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .search-wrapper {
+    flex-direction: row;
+  }
+}
+
+/* Tablet and larger mobile devices (768px and up) */
+@media (max-width: 768px) {
+  .search-wrapper {
+    flex-wrap: wrap;
+  }
+  
+  #searchInput {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    flex-basis: 100%;
+  }
+  
+  .search-button-group {
+    display: flex;
+    width: 100%;
+  }
+  
+  #searchButton {
+    border-radius: 0 0 12px 12px;
+    padding: 12px;
+    width: 100%;
+  }
+  
+  .search-results {
+    top: calc(100% + 5px);
+    max-height: 60vh;
+  }
+}
+
+@media (min-width: 769px) {
+  #searchButton {
+    border-radius: 0 12px 12px 0;
+  }
+}
+
+/* Handle different screen orientations */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .search-results {
+    max-height: 40vh;
+  }
+  
+  .search-result-item {
+    padding: 10px 15px;
+  }
+}
+
+/* High-DPI devices (iPhone X, Galaxy S10+, etc.) */
+@media (-webkit-min-device-pixel-ratio: 2), 
+       (min-resolution: 192dpi) {
+  .search-wrapper {
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: max(0px)) {
+  .search-container {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
+
+/* Dark mode styles */
+[data-theme="dark"] #searchInput,
+[data-theme="dark"] .search-results {
+  background: var(--moto-dark-bg, #222222);
+  color: var(--moto-light, #f0f0f0);
+}
+
+[data-theme="dark"] .search-result-name {
+  color: var(--moto-light, #f0f0f0);
+}
+
+[data-theme="dark"] .search-result-item:hover {
+  background: var(--moto-darker-bg, #333333);
+}
+
+.animated-search {
+  animation: searchAppear 0.3s ease-out forwards;
+}
+
+@keyframes searchAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search highlight styling */
+.highlight-text {
+  background: rgba(200, 16, 46, 0.1);
+  color: var(--moto-red, #c8102e);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+/* Loading animation */
+.search-loading {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.search-loader {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(200, 16, 46, 0.2);
+  border-top-color: var(--moto-red, #c8102e);
+  border-radius: 50%;
+  animation: search-loader-spin 1s infinite linear;
+}
+
+@keyframes search-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 768px) {
+  #searchButton {
+    min-height: 48px;
+  }
+  
+  .search-result-item {
+    min-height: 44px;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+#searchInput:focus,
+#searchButton:focus {
+  outline: 2px solid var(--moto-red, #c8102e);
+  outline-offset: -2px;
+}
+
+/* Fix for iPhone X and newer models with notch */
+@media screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3),
+       screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3),
+       screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2),
+       screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3),
+       screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+  .search-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Fix for text zooming accessibility feature */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+`;
+        document.head.appendChild(searchStyles);
+
+        // Mobile layout fix
+        if (window.innerWidth <= 768) {
+            // Create button group container for mobile layout
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+
+            // Create button group container
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'search-button-group';
+
+            // Re-organize elements
+            const searchWrapper = document.querySelector('.search-wrapper');
+            searchWrapper.appendChild(buttonGroup);
+            buttonGroup.appendChild(searchButton);
+        }
+
+        // Search functionality variables
+        let searchTimeout;
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResultsContainer = document.getElementById('searchResults');
+
+        // Function to highlight search terms in text
+        function highlightText(text, searchTerm) {
+            if (!searchTerm || typeof text !== 'string') return text;
+
+            const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<span class="highlight-text">$1</span>');
+        }
+
+        // Safely parse price from search term
+        function parsePriceFromSearchTerm(searchTerm) {
+            try {
+                const numericValue = searchTerm.replace(/\D/g, '');
+                if (numericValue) {
+                    return parseInt(numericValue);
+                }
+                return null;
+            } catch (error) {
+                console.warn("Error parsing price:", error);
+                return null;
+            }
+        }
+
+        // Perform search function
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+
+            // Clear previous results
+            searchResultsContainer.innerHTML = '';
+
+            if (!searchTerm) {
+                hideSearchResults();
+                return;
+            }
+
+            // Show loading indicator
+            searchResultsContainer.innerHTML = `
+    <div class="search-loading">
+      <div class="search-loader"></div>
+    </div>
+  `;
+            searchResultsContainer.style.display = 'block';
+
+            // Simulate search delay for better UX
+            setTimeout(() => {
+                let results = [];
+
+                try {
+                    // Search all fields since we removed the category filters
+                    results = motorcycles.filter(moto =>
+                        moto.name.toLowerCase().includes(searchTerm) ||
+                        moto.id.toLowerCase().includes(searchTerm) ||
+                        moto.category.toLowerCase().includes(searchTerm) ||
+                        moto.price.toString().includes(searchTerm) ||
+                        moto.engine.toLowerCase().includes(searchTerm) ||
+                        moto.power.toLowerCase().includes(searchTerm) ||
+                        moto.description.toLowerCase().includes(searchTerm)
+                    );
+                } catch (error) {
+                    console.error("Error during search:", error);
+                    searchResultsContainer.innerHTML = `
+        <div class="search-no-results">
+          <h3>Search error</h3>
+          <p>Something went wrong with your search. Please try again.</p>
+        </div>
+      `;
+                    return;
+                }
+
+                displaySearchResults(results, searchTerm);
+            }, 300); // Reduced simulated delay for better responsiveness
+        }
+
+        // Display search results
+        function displaySearchResults(results, searchTerm) {
+            searchResultsContainer.innerHTML = '';
+
+            if (results.length === 0) {
+                searchResultsContainer.innerHTML = `
+      <div class="search-no-results">
+        <h3>No results found</h3>
+        <p>Try different keywords</p>
+      </div>
+    `;
+                return;
+            }
+
+            // Limit results to improve performance if needed
+            const displayResults = results.slice(0, 10); // Show max 10 results
+            const hasMoreResults = results.length > 10;
+
+            displayResults.forEach(moto => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'search-result-item animated-search';
+                resultItem.setAttribute('tabindex', '0'); // Make focusable for keyboard navigation
+
+                // Create category display with proper capitalization
+                const categoryDisplay = moto.category.charAt(0).toUpperCase() + moto.category.slice(1);
+
+                resultItem.innerHTML = `
+      <img class="search-result-image" src="${moto.images[0]}" alt="${moto.name}">
+      <div class="search-result-details">
+        <div class="search-result-name">${highlightText(moto.name, searchTerm)}</div>
+        <div class="search-result-info">
+          <span><strong>Category:</strong> ${categoryDisplay}</span>
+          <span><strong>Engine:</strong> ${moto.engine}</span>
+          <span><strong>Price:</strong> ${formatPrice(moto.price)}</span>
+        </div>
+      </div>
+    `;
+
+                // Add click event to show motorcycle details
+                resultItem.addEventListener('click', () => {
+                    showMotorcycleDetails(moto);
+                    // Hide search results after selection
+                    hideSearchResults();
+                });
+
+                // Keyboard navigation
+                resultItem.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showMotorcycleDetails(moto);
+                        hideSearchResults();
+                    }
+                });
+
+                searchResultsContainer.appendChild(resultItem);
+            });
+
+            // Add "more results" indicator if needed
+            if (hasMoreResults) {
+                const moreResults = document.createElement('div');
+                moreResults.className = 'search-more-results';
+                moreResults.innerHTML = `
+      <p>Showing top 10 results of ${results.length}. Refine your search for more specific results.</p>
+    `;
+                moreResults.style.padding = '10px 20px';
+                moreResults.style.textAlign = 'center';
+                moreResults.style.fontSize = '13px';
+                moreResults.style.color = 'var(--moto-gray, #777777)';
+                moreResults.style.borderTop = '1px solid rgba(0, 0, 0, 0.08)';
+
+                searchResultsContainer.appendChild(moreResults);
+            }
+
+            // Add subtle delay between animations for first few items only
+            const items = searchResultsContainer.querySelectorAll('.search-result-item');
+            const animationLimit = Math.min(items.length, 5); // Limit animations to first 5 items for performance
+
+            for (let i = 0; i < animationLimit; i++) {
+                items[i].style.animationDelay = `${i * 0.05}s`;
+            }
+        }
+
+        // Hide search results
+        function hideSearchResults() {
+            searchResultsContainer.style.display = 'none';
+            searchResultsContainer.innerHTML = '';
+        }
+
+        // Event listeners for search
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 300);
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                performSearch();
+            } else if (e.key === 'Escape') {
+                hideSearchResults();
+            }
+        });
+
+        searchButton.addEventListener('click', performSearch);
+
+        // Add responsive design for the search container
+        window.addEventListener('resize', () => {
+            const isSmallScreen = window.innerWidth <= 768;
+
+            if (isSmallScreen) {
+                document.querySelector('.search-wrapper').classList.add('mobile-search');
+
+                // Ensure button group exists
+                if (!document.querySelector('.search-button-group')) {
+                    const searchButton = document.getElementById('searchButton');
+
+                    // Create button group container if it doesn't exist
+                    const buttonGroup = document.createElement('div');
+                    buttonGroup.className = 'search-button-group';
+
+                    // Re-organize elements
+                    const searchWrapper = document.querySelector('.search-wrapper');
+                    searchWrapper.appendChild(buttonGroup);
+                    buttonGroup.appendChild(searchButton);
+                }
+            } else {
+                document.querySelector('.search-wrapper').classList.remove('mobile-search');
+
+                // Return to original layout if needed
+                const buttonGroup = document.querySelector('.search-button-group');
+                if (buttonGroup) {
+                    const searchWrapper = document.querySelector('.search-wrapper');
+                    const searchButton = document.getElementById('searchButton');
+
+                    searchWrapper.appendChild(searchButton);
+                    buttonGroup.remove();
+                }
+            }
+        });
+
+        // Add keyboard shortcut (Ctrl+K or Cmd+K) to focus search
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+
+            // ESC key to close search results
+            if (e.key === 'Escape' && searchResultsContainer.style.display === 'block') {
+                hideSearchResults();
+            }
+        });
+
+        // Handle click outside search results to close them
+        document.addEventListener('click', (e) => {
+            const isClickInsideSearch = e.target.closest('.search-container');
+
+            if (!isClickInsideSearch && searchResultsContainer.style.display === 'block') {
+                // Small delay to allow for result selection
+                setTimeout(() => {
+                    hideSearchResults();
+                }, 100);
+            }
+        });
+
+        // Initialize with appropriate layout
+        if (window.innerWidth <= 768) {
+            document.querySelector('.search-wrapper').classList.add('mobile-search');
+        }
+
+        // Handle cases where formatPrice might not be defined
+        if (typeof formatPrice !== 'function') {
+            window.formatPrice = function (price) {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    maximumFractionDigits: 0
+                }).format(price);
+            };
+        }
+
     </script>
 </body>
