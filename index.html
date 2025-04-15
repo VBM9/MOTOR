@@ -1008,8 +1008,10 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
             box-sizing: border-box;
+            overflow-y: auto;
+            /* Enable scrolling for small screens */
         }
 
         .modal-content {
@@ -1023,6 +1025,10 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: modalFadeIn 0.3s ease-out;
+            margin: 0 auto;
+            /* Center the modal */
+            max-height: 95vh;
+            /* Prevent overflow on small screens */
         }
 
         @keyframes modalFadeIn {
@@ -1039,13 +1045,20 @@
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
             color: var(--text-color);
             cursor: pointer;
-            z-index: 1;
+            z-index: 10;
             transition: color 0.2s;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-modal:hover {
@@ -1054,8 +1067,10 @@
 
         .modal-image-container {
             width: 100%;
-            height: 300px;
+            height: 250px;
+            /* Smaller height for mobile */
             overflow: hidden;
+            position: relative;
         }
 
         .modal-image {
@@ -1070,46 +1085,51 @@
         }
 
         .modal-details {
-            padding: 25px;
+            padding: 20px 15px;
+            /* Reduced padding for mobile */
         }
 
         .modal-name {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            /* Smaller font size for mobile */
+            margin-bottom: 15px;
             color: var(--text-color);
+            line-height: 1.2;
         }
 
         .modal-specs {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .spec-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border-color);
         }
 
         .spec-label {
             font-weight: 600;
             color: var(--text-color);
+            font-size: 14px;
         }
 
         .spec-value {
             color: var(--moto-gray);
+            font-size: 14px;
         }
 
         .price-row {
-            grid-column: span 2;
-            padding: 15px 0;
+            grid-column: 1;
+            padding: 12px 0;
             border-bottom: none;
         }
 
         .price-row .spec-value {
-            font-size: 22px;
+            font-size: 20px;
             color: var(--moto-red);
             font-weight: 700;
         }
@@ -1123,6 +1143,7 @@
             cursor: pointer;
             transition: all 0.2s;
             margin-bottom: 10px;
+            font-size: 16px;
         }
 
         .add-cart-btn {
@@ -1144,52 +1165,26 @@
             background-color: rgba(211, 47, 47, 0.1);
         }
 
-        @media (min-width: 768px) {
-            .modal-content {
-                flex-direction: row;
-                max-height: 500px;
-            }
-
-            .modal-image-container {
-                width: 50%;
-                height: auto;
-            }
-
-            .modal-details {
-                width: 50%;
-                padding: 30px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-
-            .modal-name {
-                font-size: 32px;
-            }
-        }
-
         /* Image navigation styles */
-        .modal-image-container {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-        }
-
         .image-nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            /* Smaller buttons for mobile */
+            height: 32px;
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
             border-radius: 50%;
-            font-size: 18px;
+            font-size: 16px;
+            /* Smaller font for mobile */
             cursor: pointer;
             transition: all 0.3s;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .image-nav-btn:hover {
@@ -1202,28 +1197,158 @@
         }
 
         .prev-btn {
-            left: 15px;
+            left: 10px;
         }
 
         .next-btn {
-            right: 15px;
+            right: 10px;
         }
 
         .image-counter {
             position: absolute;
-            bottom: 15px;
-            right: 15px;
+            bottom: 10px;
+            right: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             z-index: 2;
         }
 
-        @media (min-width: 768px) {
+        /* Small phones (up to 400px) */
+        @media (max-width: 400px) {
+            .modal-content {
+                max-height: 100vh;
+            }
+
             .modal-image-container {
-                height: 500px;
+                height: 200px;
+            }
+
+            .modal-name {
+                font-size: 20px;
+            }
+
+            .modal-specs {
+                gap: 5px;
+            }
+
+            .spec-label,
+            .spec-value {
+                font-size: 13px;
+            }
+
+            .price-row .spec-value {
+                font-size: 18px;
+            }
+
+            .modal-button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Medium phones (400px to 576px) */
+        @media (min-width: 401px) and (max-width: 576px) {
+            .modal-image-container {
+                height: 220px;
+            }
+        }
+
+        /* Large phones (576px to 768px) */
+        @media (min-width: 577px) and (max-width: 767px) {
+            .modal-image-container {
+                height: 280px;
+            }
+
+            .modal-name {
+                font-size: 24px;
+            }
+
+            .modal-specs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .price-row {
+                grid-column: span 2;
+            }
+        }
+
+        /* Tablets and larger (768px and above) */
+        @media (min-width: 768px) {
+            .motorcycle-modal {
+                padding: 20px;
+            }
+
+            .modal-content {
+                flex-direction: row;
+                max-height: 500px;
+            }
+
+            .modal-image-container {
+                width: 50%;
+                height: auto;
+                min-height: 500px;
+            }
+
+            .modal-details {
+                width: 50%;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .modal-name {
+                font-size: 28px;
+            }
+
+            .modal-specs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .price-row {
+                grid-column: span 2;
+            }
+
+            .spec-label,
+            .spec-value {
+                font-size: 15px;
+            }
+
+            .price-row .spec-value {
+                font-size: 22px;
+            }
+        }
+
+        /* Large tablets and desktops (992px and above) */
+        @media (min-width: 992px) {
+            .modal-name {
+                font-size: 32px;
+            }
+
+            .modal-details {
+                padding: 35px;
+            }
+        }
+
+        /* Handle landscape orientation on phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .modal-content {
+                flex-direction: row;
+                max-height: 90vh;
+            }
+
+            .modal-image-container {
+                width: 50%;
+                height: auto;
+            }
+
+            .modal-details {
+                width: 50%;
+                overflow-y: auto;
+                max-height: 90vh;
             }
         }
     </style>
@@ -1449,6 +1574,142 @@
                 power: "100 HP",
                 weight: "251 kg",
                 description: "The Scout Bobber combines classic American cruiser styling with modern performance. Its low-slung profile, blacked-out components, and powerful 1133cc V-twin engine create a bold statement on the road. Ideal for riders who value style and substance."
+            },
+            // Added motorcycles below
+            {
+                id: "adventure-1",
+                name: "GS 1250 Adventure",
+                category: "adventure",
+                price: 20495,
+                images: [
+                    "https://images.unsplash.com/photo-1568708090592-eb1815c6b4b5?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1609689000460-47e5e3de6e74?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1571646750134-60a1c8b4d1fc?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1254cc",
+                power: "136 HP",
+                weight: "249 kg",
+                description: "The GS 1250 Adventure is the ultimate go-anywhere motorcycle. Its powerful boxer engine, advanced suspension, and comprehensive electronics make it equally capable on highways, dirt roads, and challenging terrain. The benchmark for adventure touring motorcycles."
+            },
+            {
+                id: "naked-1",
+                name: "Street Fighter V4",
+                category: "naked",
+                price: 19995,
+                images: [
+                    "https://images.unsplash.com/photo-1616839261111-d7070462d66e?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1595162477157-4ce83e7c2ca8?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1606629317988-f7e66b70f55f?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1103cc",
+                power: "208 HP",
+                weight: "201 kg",
+                description: "The Street Fighter V4 takes the raw power of a superbike and strips away the fairings for an aggressive naked design. With MotoGP-derived electronics and a howling V4 engine, it delivers breathtaking performance and handling without compromising on character."
+            },
+            {
+                id: "cruiser-1",
+                name: "Road King Classic",
+                category: "cruiser",
+                price: 19499,
+                images: [
+                    "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1868cc",
+                power: "94 HP",
+                weight: "362 kg",
+                description: "The Road King Classic embodies American highway cruising tradition with its heritage styling, massive V-twin engine, and unparalleled comfort. Chrome accents, leather saddlebags, and whitewall tires complete the classic look while modern technology ensures reliable performance."
+            },
+            {
+                id: "touring-1",
+                name: "Gold Wing Tour",
+                category: "touring",
+                price: 29999,
+                images: [
+                    "https://images.unsplash.com/photo-1632934071822-a4562e1ec11d?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1607522370275-f14c93d395f2?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1600315708348-8ae2ca26e0bb?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1833cc",
+                power: "126 HP",
+                weight: "379 kg",
+                description: "The Gold Wing Tour defines luxury motorcycle touring with its smooth six-cylinder engine, spacious accommodations for rider and passenger, and comprehensive features. From the advanced infotainment system to electronically adjustable suspension, every detail is designed for comfortable long-distance travel."
+            },
+            {
+                id: "sport-3",
+                name: "Panigale V4",
+                category: "sport",
+                price: 23995,
+                images: [
+                    "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2036&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1568265112889-c9d3fc50a281?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1549641830-a51d6c0d1267?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1103cc",
+                power: "214 HP",
+                weight: "198 kg",
+                description: "The Panigale V4 represents the pinnacle of superbike engineering with its MotoGP-derived V4 engine and cutting-edge aerodynamics. Every component is designed to maximize performance on the racetrack while still offering approachable handling for experienced street riders."
+            },
+            {
+                id: "retro-1",
+                name: "Bonneville T120",
+                category: "retro",
+                price: 12495,
+                images: [
+                    "https://images.unsplash.com/photo-1614610978306-9c8f2f1e7d54?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1575438922952-8ebd22b0bc1f?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1517846693594-1567da4e4565?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1200cc",
+                power: "80 HP",
+                weight: "224 kg",
+                description: "The Bonneville T120 celebrates iconic British motorcycle design with authentic retro styling and modern performance. Its smooth parallel-twin engine delivers accessible torque while classic details like spoked wheels and peashooter exhausts capture the essence of 1960s motorcycling."
+            },
+            {
+                id: "adventure-2",
+                name: "Africa Twin",
+                category: "adventure",
+                price: 14999,
+                images: [
+                    "https://images.unsplash.com/photo-1619771914272-e3c1ba17ba4d?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1596440114792-d3e0ae1a81f0?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1620193827194-6ce316492f6d?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "1084cc",
+                power: "102 HP",
+                weight: "226 kg",
+                description: "The Africa Twin carries on the legacy of its Dakar Rally-winning predecessor with exceptional off-road capability and on-road comfort. Its parallel-twin engine provides linear power delivery, while long-travel suspension and available DCT transmission make it a versatile adventure companion."
+            },
+            {
+                id: "naked-2",
+                name: "MT-09",
+                category: "naked",
+                price: 9499,
+                images: [
+                    "https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2021&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1599912346158-7bbdb3c2d589?q=80&w=2069&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1611241443322-b5524914fe1c?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "890cc",
+                power: "117 HP",
+                weight: "193 kg",
+                description: "The MT-09 redefines the middleweight naked category with its thrilling three-cylinder engine and agile chassis. Its aggressive styling, lightweight design, and torque-rich power delivery create an engaging riding experience that emphasizes fun and versatility at an accessible price point."
+            },
+            {
+                id: "retro-2",
+                name: "Z900RS",
+                category: "retro",
+                price: 11499,
+                images: [
+                    "https://images.unsplash.com/photo-1609630875267-842badde016e?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1611242320536-f12d3541249b?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1580485095308-473d7b37cfd4?q=80&w=2070&auto=format&fit=crop"
+                ],
+                engine: "948cc",
+                power: "111 HP",
+                weight: "215 kg",
+                description: "The Z900RS pays homage to the iconic Z1 with its timeless styling while delivering thoroughly modern performance. Its inline-four engine combines smooth power with a satisfying exhaust note, while premium suspension and brakes ensure confident handling for both relaxed cruising and spirited riding."
             }
         ];
 
@@ -1518,10 +1779,7 @@
         <h3>Description</h3>
         <p class="modal-description-text"></p>
       </div>
-      <div class="modal-actions">
-        <button class="modal-button add-cart-btn">Add to Cart</button>
-        <button class="modal-button test-ride-btn">Book a Test Ride</button>
-      </div>
+
     </div>
   </div>
 `;
