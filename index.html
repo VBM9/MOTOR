@@ -996,8 +996,9 @@
             color: inherit;
         }
 
-        /* Motorcycle Modal Styles */
+        /* Motorcycle Modal Styles - Enhanced for all phone displays */
         .motorcycle-modal {
+            margin-top: 51px;
             display: none;
             position: fixed;
             top: 0;
@@ -1012,6 +1013,8 @@
             box-sizing: border-box;
             overflow-y: auto;
             /* Enable scrolling for small screens */
+            -webkit-overflow-scrolling: touch;
+            /* Smooth scrolling on iOS devices */
         }
 
         .modal-content {
@@ -1027,8 +1030,8 @@
             animation: modalFadeIn 0.3s ease-out;
             margin: 0 auto;
             /* Center the modal */
-            max-height: 95vh;
-            /* Prevent overflow on small screens */
+            max-height: 90vh;
+            /* Adjusted for better visibility on various devices */
         }
 
         @keyframes modalFadeIn {
@@ -1045,32 +1048,83 @@
 
         .close-modal {
             position: absolute;
-            top: 10px;
+            top: 15px;
             right: 15px;
-            font-size: 24px;
-            color: var(--text-color);
+            width: 40px;
+            height: 40px;
             cursor: pointer;
             z-index: 10;
-            transition: color 0.2s;
-            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+            border: none;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            transform: translateZ(0);
+            /* Hardware acceleration */
         }
 
-        .close-modal:hover {
-            color: var(--moto-red);
+        .close-modal::before,
+        .close-modal::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            border-radius: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .close-modal::before {
+            transform: rotate(45deg);
+        }
+
+        .close-modal::after {
+            transform: rotate(-45deg);
+        }
+
+        .close-modal:hover,
+        .close-modal:active {
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateZ(0) scale(1.05);
+        }
+
+        .close-modal:hover::before,
+        .close-modal:hover::after,
+        .close-modal:active::before,
+        .close-modal:active::after {
+            background-color: var(--moto-red);
+            width: 22px;
+        }
+
+        @media (max-width: 576px) {
+            .close-modal {
+                width: 36px;
+                height: 36px;
+            }
+
+            .close-modal::before,
+            .close-modal::after {
+                width: 18px;
+            }
         }
 
         .modal-image-container {
             width: 100%;
-            height: 250px;
-            /* Smaller height for mobile */
+            height: 0;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio for consistent proportions */
             overflow: hidden;
             position: relative;
+            min-height: 200px;
+            /* Minimum height */
+            max-height: 300px;
+            /* Maximum height on mobile */
         }
 
         .modal-image {
@@ -1078,6 +1132,9 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .modal-image:hover {
@@ -1086,15 +1143,18 @@
 
         .modal-details {
             padding: 20px 15px;
-            /* Reduced padding for mobile */
+            flex: 1;
+            overflow-y: auto;
+            /* Allow scrolling for content */
         }
 
         .modal-name {
-            font-size: 22px;
-            /* Smaller font size for mobile */
+            font-size: 20px;
+            /* Base size for smallest screens */
             margin-bottom: 15px;
             color: var(--text-color);
             line-height: 1.2;
+            font-weight: 700;
         }
 
         .modal-specs {
@@ -1129,7 +1189,7 @@
         }
 
         .price-row .spec-value {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--moto-red);
             font-weight: 700;
         }
@@ -1144,14 +1204,21 @@
             transition: all 0.2s;
             margin-bottom: 10px;
             font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+            /* Remove tap highlight on mobile */
+            touch-action: manipulation;
+            /* Optimize for touch */
         }
 
         .add-cart-btn {
             background-color: var(--moto-red);
             color: white;
+            min-height: 44px;
+            /* Ensure good touch target size */
         }
 
-        .add-cart-btn:hover {
+        .add-cart-btn:hover,
+        .add-cart-btn:active {
             background-color: #d32f2f;
         }
 
@@ -1159,9 +1226,12 @@
             background-color: transparent;
             border: 2px solid var(--moto-red);
             color: var(--moto-red);
+            min-height: 44px;
+            /* Ensure good touch target size */
         }
 
-        .test-ride-btn:hover {
+        .test-ride-btn:hover,
+        .test-ride-btn:active {
             background-color: rgba(211, 47, 47, 0.1);
         }
 
@@ -1170,24 +1240,25 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 32px;
-            /* Smaller buttons for mobile */
-            height: 32px;
+            width: 40px;
+            /* Larger for better touch targets */
+            height: 40px;
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
             border-radius: 50%;
             font-size: 16px;
-            /* Smaller font for mobile */
             cursor: pointer;
             transition: all 0.3s;
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .image-nav-btn:hover {
+        .image-nav-btn:hover,
+        .image-nav-btn:active {
             background-color: rgba(0, 0, 0, 0.8);
         }
 
@@ -1216,50 +1287,70 @@
             z-index: 2;
         }
 
-        /* Small phones (up to 400px) */
-        @media (max-width: 400px) {
+        /* Extra Small phones (up to 320px) - for older/budget devices */
+        @media (max-width: 320px) {
             .modal-content {
                 max-height: 100vh;
             }
 
             .modal-image-container {
-                height: 200px;
+                max-height: 180px;
+            }
+
+            .modal-name {
+                font-size: 18px;
+            }
+
+            .spec-label,
+            .spec-value {
+                font-size: 12px;
+            }
+
+            .price-row .spec-value {
+                font-size: 16px;
+            }
+
+            .modal-button {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+
+        /* Small phones (321px to 400px) */
+        @media (min-width: 321px) and (max-width: 400px) {
+            .modal-content {
+                max-height: 100vh;
+            }
+
+            .modal-image-container {
+                max-height: 200px;
             }
 
             .modal-name {
                 font-size: 20px;
             }
 
-            .modal-specs {
-                gap: 5px;
-            }
-
             .spec-label,
             .spec-value {
                 font-size: 13px;
             }
-
-            .price-row .spec-value {
-                font-size: 18px;
-            }
-
-            .modal-button {
-                padding: 10px;
-                font-size: 14px;
-            }
         }
 
-        /* Medium phones (400px to 576px) */
+        /* Medium phones (401px to 576px) */
         @media (min-width: 401px) and (max-width: 576px) {
             .modal-image-container {
-                height: 220px;
+                max-height: 220px;
+            }
+
+            .modal-name {
+                font-size: 22px;
             }
         }
 
-        /* Large phones (576px to 768px) */
+        /* Large phones (577px to 767px) */
         @media (min-width: 577px) and (max-width: 767px) {
             .modal-image-container {
-                height: 280px;
+                max-height: 280px;
             }
 
             .modal-name {
@@ -1288,8 +1379,10 @@
 
             .modal-image-container {
                 width: 50%;
+                max-height: none;
                 height: auto;
                 min-height: 500px;
+                padding-bottom: 0;
             }
 
             .modal-details {
@@ -1298,6 +1391,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                max-height: 500px;
             }
 
             .modal-name {
@@ -1343,12 +1437,48 @@
             .modal-image-container {
                 width: 50%;
                 height: auto;
+                min-height: auto;
+                padding-bottom: 0;
             }
 
             .modal-details {
                 width: 50%;
                 overflow-y: auto;
                 max-height: 90vh;
+                padding: 15px;
+            }
+
+            .modal-button {
+                margin-bottom: 5px;
+                padding: 8px;
+            }
+        }
+
+        /* Extra tall phones (like iPhone 12 Pro Max, Galaxy S21 Ultra, etc.) */
+        @media (min-height: 800px) and (max-width: 576px) {
+            .modal-image-container {
+                max-height: 320px;
+            }
+        }
+
+        /* Notched phones (iPhone X and newer) - handle safe areas */
+        @supports (padding: max(0px)) {
+            .motorcycle-modal {
+                padding-left: max(10px, env(safe-area-inset-left));
+                padding-right: max(10px, env(safe-area-inset-right));
+                padding-top: max(10px, env(safe-area-inset-top));
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Handle foldable phones in folded mode */
+        @media (max-width: 320px) and (min-height: 700px) {
+            .modal-content {
+                max-height: 95vh;
+            }
+
+            .modal-details {
+                padding: 15px 10px;
             }
         }
     </style>
