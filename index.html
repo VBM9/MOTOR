@@ -1952,7 +1952,7 @@
         fullscreenStyles.textContent = `
 .fullscreen-btn {
   position: absolute;
-  top: 200px;
+  top: 20px;
   left: 15px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
@@ -1967,9 +1967,11 @@
   align-items: center;
   justify-content: center;
   transition: background 0.3s, transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.fullscreen-btn:hover {
+.fullscreen-btn:hover, .fullscreen-btn:active {
   background: rgba(0, 0, 0, 0.7);
   transform: scale(1.1);
 }
@@ -1985,6 +1987,7 @@
   display: none;
   justify-content: center;
   align-items: center;
+  overscroll-behavior: contain;
 }
 
 .fullscreen-wrapper {
@@ -1994,12 +1997,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  touch-action: pan-x pan-y;
 }
 
 .fullscreen-image {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .exit-fullscreen-btn {
@@ -2016,9 +2022,11 @@
   cursor: pointer;
   z-index: 2001;
   transition: background 0.3s, transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.exit-fullscreen-btn:hover {
+.exit-fullscreen-btn:hover, .exit-fullscreen-btn:active {
   background: rgba(0, 0, 0, 0.7);
   transform: scale(1.1);
 }
@@ -2035,6 +2043,8 @@
   background: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 30px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .fullscreen-counter {
@@ -2057,9 +2067,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.fullscreen-nav-btn:hover:not([disabled]) {
+.fullscreen-nav-btn:hover:not([disabled]), .fullscreen-nav-btn:active:not([disabled]) {
   background: rgba(255, 255, 255, 0.4);
   transform: scale(1.1);
 }
@@ -2071,14 +2083,29 @@
 
 /* For mobile devices */
 @media (max-width: 768px) {
+  .fullscreen-btn {
+    top: 220px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+  
   .fullscreen-navigation {
     bottom: 15px;
     padding: 8px 15px;
+    gap: 12px;
+    border-radius: 20px;
   }
   
   .fullscreen-nav-btn {
     width: 35px;
     height: 35px;
+    font-size: 18px;
+  }
+  
+  .fullscreen-counter {
+    font-size: 14px;
+    min-width: 50px;
   }
   
   .exit-fullscreen-btn {
@@ -2088,6 +2115,70 @@
     top: 10px;
     right: 10px;
   }
+}
+
+/* For very small screens */
+@media (max-width: 380px) {
+  .fullscreen-btn {
+    top: 220px;
+    left: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .fullscreen-navigation {
+    bottom: 10px;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  
+  .fullscreen-nav-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+  
+  .fullscreen-counter {
+    font-size: 12px;
+    min-width: 40px;
+  }
+  
+  .exit-fullscreen-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    top: 8px;
+    right: 8px;
+  }
+  
+  .fullscreen-image {
+    max-width: 95%;
+    max-height: 95%;
+  }
+}
+
+/* Fix for iOS Safari's bottom bar */
+@supports (-webkit-touch-callout: none) {
+  .fullscreen-navigation {
+    bottom: env(safe-area-inset-bottom, 15px);
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Improve touch behavior for all touch devices */
+@media (pointer: coarse) {
+  .fullscreen-btn,
+  .exit-fullscreen-btn,
+  .fullscreen-nav-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent text selection and improve touch experience */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 `;
         document.head.appendChild(fullscreenStyles);
